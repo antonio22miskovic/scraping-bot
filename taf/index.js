@@ -24,12 +24,12 @@ const ScrapingTaf = async (page) => {
 	await $('.product-item__wrapper').each( (i, item) => {
 		dataSetArray(item,$)
 	})
-	// jsonWrite('./taf/taf.json' ,product_old)
-	if (product_new.length > 0) {
-		// console.log(product_new[3])
-		getMessage(product_new[3])
-		// jsonWrite('./taf/taf.json' ,product_new)
-	}
+	// // jsonWrite('./taf/taf.json' ,product_old)
+	// if (product_new.length > 0) {
+	// 	// console.log(product_new[3])
+	// 	getMessage(product_new[3])
+	// 	// jsonWrite('./taf/taf.json' ,product_new)
+	// }
 }
 
 const validate = (element) => {
@@ -76,6 +76,7 @@ const dataSetArray = async (item,$) => {
 		  	url: $(item).find('.product-item__main-image').attr('href'),
 		  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 		}
+		await	getMessage(data)
 		// if(validate(data) == true){
 			product_new.push(data)
 		// }

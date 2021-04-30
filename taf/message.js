@@ -3,7 +3,7 @@ const {client, MessageEmbed} = require('../discord.js')
 const getMessage = async (result) => {
 
 	// let id = client.channels.cache.find(channel => channel.name === "test")
-	let id = client.channels.cache.find(channel => channel.name === "general")
+	 let id = client.channels.cache.find(channel => channel.name === "general")
 	console.log(id)
 		let embed = new MessageEmbed()
 	    .setTitle("Nuevo Producto")
