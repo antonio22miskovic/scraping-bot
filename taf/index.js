@@ -67,7 +67,10 @@ const clearString = (text) => {
 }
 
 const dataSetArray = async (item,$) => {
-	if (clearString($(item).find('p').text()) === "RestringidoEncuesta") {
+	if (
+			clearString($(item).find('p').text()) === "RestringidoEncuesta" &&
+			clearString($(item).find('.product-item__category').text()) === 'Sneakers'
+	) {
 		let data = await {
 		  	categoria: clearString($(item).find('.product-item__category').text()),
 		  	name: clearString($(item).find('.product-item__name').text()),
