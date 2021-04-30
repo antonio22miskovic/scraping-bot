@@ -7,7 +7,7 @@ client.on('ready', () => {
  })//1
 client.login('ODM3NzgxOTg1OTgzNTk0NTQ2.YIxjRg.wGP9iIDgE7NUhQRnzFPokzVm4SU')
 
-cron.schedule('15 0 0 * * *',() => {
+cron.schedule('15 * * * * *',() => {
 	  initTaf()
 })
 
