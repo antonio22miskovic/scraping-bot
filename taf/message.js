@@ -14,7 +14,7 @@ const getMessage = async (result) => {
 	    .setTimestamp()
 	    .setURL(result.url)
 	    .addField(result.name, result.categoria, true)
-	    .addField(result.price, result.categoria, true)
+	    .addField(result.price, result.marca, true)
 	client.channels.cache.get(id.id).send({embed})
 }
 
