@@ -15,7 +15,7 @@ cron.schedule('40 * * * * *',() => {
 cron.schedule('15 * * * * *',() => {
 	const tafObject = new Taf("https://www.taf.com.mx/dunk").scraping()
 })
-
+//
 
 
 

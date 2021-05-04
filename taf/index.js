@@ -19,7 +19,6 @@ class Taf {
 	}
 
 	async scraping () { // iniciador
-
 		console.log('dentro del scraping')
 		let $ = await request({
 			url: this.url,
@@ -27,33 +26,52 @@ class Taf {
 		})
 		console.log('ya se realizo el scraping')
 		await $('.product-item__wrapper').each( (i, item) => {
-				if (this.url === "https://www.taf.com.mx/dunk") {
-					this.dataSetArrayDuck(item,$)
-				}else{
-					this.dataSetArray(item,$)
-				}
-		})
-		console.log('la nueva data del array:',this.product_new)
-		if (this.product_new.length > 0) {
 			if (this.url === "https://www.taf.com.mx/dunk") {
-				await jsonWrite('../taf/tafDuck.json' ,this.product_new)
+				this.dataSetArrayDuck(item,$)
+			}else{
+				this.dataSetArray(item,$)
+			}
+		})
+		console.log('pasando el await')
+		console.log('logitud:',this.product_new.length)
+		if (this.product_new.length > 0) {
+			console.log('la nueva data del array:',this.product_new)
+			if (this.url === "https://www.taf.com.mx/dunk") {
+				await jsonWrite('./taf/tafDuck.json' ,this.product_new)
+			}else{
+		 		await jsonWrite('./taf/taf.json' ,this.product_new)
+			}
 		}
-		}else{
-		 	await jsonWrite('../taf/taf.json' ,this.product_new)
-		}
-
 	}
 
 	async validate (product) {// validar y hacer la peticion al json para validar
-			if (this.validate_product(product) === true) {
-				if (this.validateMessage(product)=== true) {
-					return true // nuevo producto
-				}else{
-					return false
+
+	  for await (let contador of this.data_validation) {
+	  	if (
+					contador.name === product.name &&
+					contador.categoria === product.categoria &&
+					contador.price === product.price &&
+					contador.url === product.url &&
+					contador.img === product.img &&
+					contador.departamento === product.departamento
+				){
+					return false // producto ya enviado
 				}
-			}else{
-				return false // producto ya enviado
-			}
+ 		}
+
+ 		for await (let contador2 of this.product_new) {
+	  	if (
+					contador2.name === product.name &&
+					contador2.categoria === product.categoria &&
+					contador2.price === product.price &&
+					contador2.url === product.url &&
+					contador2.img === product.img &&
+					contador2.departamento === product.departamento
+				){
+					return false // producto ya enviado
+				}
+ 		}
+		return true // nuevo producto
 	}
 
  validate_product (product) { // busca en el archivo json datos que no existan
@@ -91,8 +109,8 @@ class Taf {
 	async dataSetArray (item,$) { // organiza la data, valida, filtra y envia en mensaje
 		if (
 			this.clearString($(item).find('p').text()) === "RestringidoEncuesta" &&
-			this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' &&
-			this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
+			this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' //&&
+			// this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
 		) {
 			let data = await {
 		  	categoria: this.clearString($(item).find('.product-item__category').text()),
@@ -105,44 +123,31 @@ class Taf {
 			}
 			// console.log('get data', data)
 			await this.validate(data).then(res => {
-				if (res === true) {
-					this.message(data)
-					this.product_new.push(data)
-					// console.log('insertando en el array',this.product_new)
-				}else{
-					console.log('esta data existe')
-				}
-			}).catch(err => {
-				console.log(err)
-			})
-		}
-	}
-
-	validateMessage (product) { // validar que no venga el mismo producto en el scraping
-
-		try {
-			for (var i = 0; i < this.product_new.length; i++) {
-				if (
-					this.product_new[i].name === product.name &&
-					this.product_new[i].categoria === product.categoria &&
-					this.product_new[i].price === product.price &&
-					this.product_new[i].url === product.url &&
-					this.product_new[i].img === product.img &&
-					this.product_new[i].departamento === product.departamento
-				){
-					return false // producto ya enviado
-				}
+			if (res === true) {
+				this.message(data).then(res => {
+					if (res == true) {
+						this.product_new.push(data)
+					}
+				})
+				// console.log('insertando en el array',this.product_new)
+			}else{
+				console.log('esta data existe')
 			}
-			return true // nuevo producto
- 		} catch(e) {
- 			console.log(e);
- 		}
-
+		}).catch(err => {
+			console.log(err)
+		})
+		}
+		console.log('la data no cumple')
 	}
+
 
 	async message(data) {
 
-		await	getMessage(data)
+		await	getMessage(data).then(res => {
+			if (res == true) {
+				return true
+			}
+		})
 
 	}
 
@@ -160,8 +165,11 @@ class Taf {
 		// console.log('get data', data)
 		await this.validate(data).then(res => {
 			if (res === true) {
-				this.message(data)
-				this.product_new.push(data)
+				this.message(data).then(res => {
+					if (res == true) {
+						this.product_new.push(data)
+					}
+				})
 				// console.log('insertando en el array',this.product_new)
 			}else{
 				console.log('esta data existe')
