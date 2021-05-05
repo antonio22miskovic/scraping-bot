@@ -7,11 +7,12 @@ class Taf {
 
 	constructor(url){ // constructor
 
-		// this.url = "https://www.taf.com.mx/"
 		this.url = url
 		if (this.url === "https://www.taf.com.mx/dunk") {
+			this.page = 2
 			this.data_validation = require('../taf/tafDuck.json')
 		}else{
+			this.page = 1
 			this.data_validation = require('../taf/taf.json')
 		}
 		this.product_new = []
@@ -25,23 +26,28 @@ class Taf {
 			transform: body => cheerio.load(body)
 		})
 		console.log('ya se realizo el scraping')
-		await $('.product-item__wrapper').each( (i, item) => {
-			if (this.url === "https://www.taf.com.mx/dunk") {
-				this.dataSetArrayDuck(item,$)
+		await $('.product-item__wrapper').each( async (i, item) => {
+			if (await this.page === 2) {
+				await this.dataSetArrayDuck(item,$)
 			}else{
-				this.dataSetArray(item,$)
+				console.log('contador:',i)
+				await	this.dataSetArray(item,$)
 			}
 		})
 		console.log('pasando el await')
 		console.log('logitud:',this.product_new.length)
-		if (this.product_new.length > 0) {
+		if ( await this.product_new.length > 0) {
 			console.log('la nueva data del array:',this.product_new)
-			if (this.url === "https://www.taf.com.mx/dunk") {
+			if ( await this.page === 2) {
 				await jsonWrite('./taf/tafDuck.json' ,this.product_new)
 			}else{
 		 		await jsonWrite('./taf/taf.json' ,this.product_new)
 			}
 		}
+	}
+
+	async accumulateData (i,item) {
+
 	}
 
 	async validate (product) {// validar y hacer la peticion al json para validar
@@ -74,28 +80,6 @@ class Taf {
 		return true // nuevo producto
 	}
 
- validate_product (product) { // busca en el archivo json datos que no existan
-
- 		try {
-			for (var i = 0; i < this.data_validation.length; i++) {
-				if (
-					this.data_validation[i].name === product.name &&
-					this.data_validation[i].categoria === product.categoria &&
-					this.data_validation[i].price === product.price &&
-					this.data_validation[i].url === product.url &&
-					this.data_validation[i].img === product.img &&
-					this.data_validation[i].departamento === product.departamento
-				){
-					return false // producto ya enviado
-				}
-			}
-			return true // nuevo producto
- 		} catch(e) {
- 			console.log(e);
- 		}
-
-	}
-
  	clearString (text) { // limpia el formato obtenido del DOM
 
 		if (text.trim().split('\n')[0] == 'Departamento') {
@@ -108,9 +92,9 @@ class Taf {
 
 	async dataSetArray (item,$) { // organiza la data, valida, filtra y envia en mensaje
 		if (
-			this.clearString($(item).find('p').text()) === "RestringidoEncuesta" &&
-			this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' //&&
-			// this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
+				await this.clearString($(item).find('p').text()) === "RestringidoEncuesta" &&
+				await this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' //&&
+			// await this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
 		) {
 			let data = await {
 		  	categoria: this.clearString($(item).find('.product-item__category').text()),
@@ -121,15 +105,13 @@ class Taf {
 		  	url: $(item).find('.product-item__main-image').attr('href'),
 		  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 			}
-			// console.log('get data', data)
-			await this.validate(data).then(res => {
-			if (res === true) {
-				this.message(data).then(res => {
-					if (res == true) {
-						this.product_new.push(data)
+			await this.validate(data).then(async (res) => {
+			if (await res === true) {
+				await this.message(data).then(async (res) => {
+					if ( await res == true) {
+						await this.product_new.push(data)
 					}
 				})
-				// console.log('insertando en el array',this.product_new)
 			}else{
 				console.log('esta data existe')
 			}
@@ -143,8 +125,8 @@ class Taf {
 
 	async message(data) {
 
-		await	getMessage(data).then(res => {
-			if (res == true) {
+		await	getMessage(data).then( async (res) => {
+			if (await res == true) {
 				return true
 			}
 		})
@@ -162,15 +144,13 @@ class Taf {
 	  	url: $(item).find('.product-item__main-image').attr('href'),
 	  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 		}
-		// console.log('get data', data)
-		await this.validate(data).then(res => {
-			if (res === true) {
-				this.message(data).then(res => {
-					if (res == true) {
-						this.product_new.push(data)
+		await this.validate(data).then(async (res) => {
+			if (await res === true) {
+				await this.message(data).then(async (res) => {
+					if ( await res == true) {
+						await this.product_new.push(data)
 					}
 				})
-				// console.log('insertando en el array',this.product_new)
 			}else{
 				console.log('esta data existe')
 			}
@@ -178,7 +158,6 @@ class Taf {
 			console.log(err)
 		})
 	}
-
 }
 
 module.exports = Taf
