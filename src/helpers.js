@@ -2,7 +2,8 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const request = require('request-promise')
 
-const jsonReader = (filePath,cb) => {
+const jsonReader = (filePath,cb) => { // cargar archivo json
+
 	fs.readFile(filePath, "utf-8", (err, jsonString) => {
 		if (err) {
 			return cb && cb(err)
@@ -14,9 +15,10 @@ const jsonReader = (filePath,cb) => {
 			return cb && cb(err)
 		}
 	})
+
 }
 
-const jsonWrite = (filePath,newFile) => {
+const jsonWrite = (filePath,newFile) => { // sobre escribir archivo json
 
 	fs.writeFile(filePath,JSON.stringify(newFile), err => {
 		if (err) {

@@ -1,22 +1,21 @@
-const {client, MessageEmbed} = require('./discord.js')
-const Taf = require('./taf/index.js')
+const {client, dotenv} = require('./src/discord.js')
+const env = require('dotenv')
+const Scraping = require('./src/scraping.js')
 const cron = require('node-cron')
 
 client.on('ready', () => {
  	console.log('conectado a discord')
- })//1
-// client.login('ODM3NzgxOTg1OTgzNTk0NTQ2.YIxjRg.wGP9iIDgE7NUhQRnzFPokzVm4SU')
- client.login('ODM2MjQ1NzI4Mjk2ODI4OTkw.YIbMhg.3cerBRNlet7JjN70FI_iVwxAbWs') //mio
+ })// verificar conexión con discord
 
-// cron.schedule('40 * * * * *',() => {
-	const tafObject = new Taf("https://www.taf.com.mx/").scraping()
-// })
+cron.schedule('59 * * * * *', () => { // pagina principal de productos
 
-// cron.schedule('15 * * * * *',() => {
-// 	const tafObject = new Taf("https://www.taf.com.mx/dunk").scraping()
-// })
-// //
+	const tafObject = new Scraping("https://www.taf.com.mx/").scrapingPage()
+	const tafObject2 = new Scraping("https://www.taf.com.mx/dunk").scrapingPage()
 
+})
+
+
+client.login(process.env.DISCORD_TOKEN)
 
 
 
