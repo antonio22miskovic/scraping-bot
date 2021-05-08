@@ -3,24 +3,33 @@ const env = require('dotenv')
 const Scraping = require('./src/scraping.js')
 const cron = require('node-cron')
 
-client.on('ready', () => {
- 	console.log('conectado a discord')
- })// verificar conexión con discord
+const urls = [
+	'https://www.taf.com.mx/',
+	'https://www.taf.com.mx/calzado',
+	'https://www.taf.com.mx/mujer/calzado/sneakers',
+	'https://www.taf.com.mx/hombre/calzado/sneakers',
+	'https://www.taf.com.mx/taf-kids/calzado/sneakers',
+]
 
-cron.schedule('59 * * * * *', () => { // pagina principal de productos
+const pageScraping = async () => {
 
-	const tafObject = new Scraping("https://www.taf.com.mx/").scrapingPage()
-	const tafObject2 = new Scraping("https://www.taf.com.mx/dunk").scrapingPage()
+	await client.on('ready', () => {
+ 		console.log('conectado a discord')
+	 })// verificar conexión con discord
+
+	for await (let url of urls){
+		await new Scraping(url).scrapingPage()
+	}
+
+}
+
+cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+
+	pageScraping()
 
 })
 
-
 client.login(process.env.DISCORD_TOKEN)
-
-
-
-// elmosquedacordova@gmail.com
-// Tester2020
 
 
 

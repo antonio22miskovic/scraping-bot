@@ -2,17 +2,13 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const request = require('request-promise')
 
-const jsonReader = (filePath,cb) => { // cargar archivo json
+const jsonReader = (filePath) => { // cargar archivo json
 
 	fs.readFile(filePath, "utf-8", (err, jsonString) => {
-		if (err) {
-			return cb && cb(err)
-		}
 		try {
-			let json =JSON.parse(jsonString)
-			return cb && cb(null,json)
+			return JSON.parse(jsonString)
 		} catch(e) {
-			return cb && cb(err)
+			return err
 		}
 	})
 

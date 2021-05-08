@@ -8,12 +8,14 @@ class Scraping {
 	constructor(url){ // constructor
 
 		this.url = url
-		if (this.url === "https://www.taf.com.mx/dunk") {
-			this.page = 2
-			this.data_validation = require('../src/tafDuck.json')
+		if (this.url === 'https://www.taf.com.mx/') {
+			this.data_validation = require('../src/data/taf.json')
+			this.url_json = './src/data/taf.json'
 		}else{
-			this.page = 1
-			this.data_validation = require('../src/taf.json')
+			let array = url.trim().split('/')
+			this.data_validation = require(`../src/data/${array[3]}.json`)
+			this.url_json = `./src/data/${array[3]}.json`
+
 		}
 		this.product_new = []
 		this.products = []
@@ -28,44 +30,27 @@ class Scraping {
 			transform: body => cheerio.load(body)
 		})
 		console.log('se esta realizando el scraping de:', this.url)
-
 		await $('.product-item__wrapper').each( (i, item) => {
-
-			if ( this.page === 2 ) { // segunda sección de la page donde no hay filtro
-
+			if ( //  filtro
+				(
+					this.clearString($(item).find('p').text()) === "RestringidoEncuesta"||
+					this.clearString($(item).find('p').text()) === "Lanzamientos"
+				) &&
+				this.clearString($(item).find('.product-item__category').text()) === 'Sneakers'&&
+				this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
+			)
+			{
 				let data =  {
-				  	categoria: this.clearString($(item).find('.product-item__category').text()),
-				  	name: this.clearString($(item).find('.product-item__name').text()),
-				  	marca: this.clearString($(item).find('.product-item__brand-name').text()),
-				  	departamento: this.clearString($(item).find('.product-item__department').text()),
-				  	price: this.clearString($(item).find('.product-item__price').text()),
-				  	url: $(item).find('.product-item__main-image').attr('href'),
-				  	img: $(item).find('.product-item__main-image').children('img').attr('src')
+			  	categoria: this.clearString($(item).find('.product-item__category').text()),
+			  	name: this.clearString($(item).find('.product-item__name').text()),
+			  	marca: this.clearString($(item).find('.product-item__brand-name').text()),
+			  	departamento: this.clearString($(item).find('.product-item__department').text()),
+			  	price: this.clearString($(item).find('.product-item__price').text()),
+			  	url: $(item).find('.product-item__main-image').attr('href'),
+			  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 				}
 
-			  this.products.push(data)
-
-			}else{ // page principal hay filtro
-
-				if (
-					 this.clearString($(item).find('p').text()) === "RestringidoEncuesta" &&
-					 this.clearString($(item).find('.product-item__category').text()) === 'Sneakers'&&
-				   this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
-				)
-				{
-					let data =  {
-				  	categoria: this.clearString($(item).find('.product-item__category').text()),
-				  	name: this.clearString($(item).find('.product-item__name').text()),
-				  	marca: this.clearString($(item).find('.product-item__brand-name').text()),
-				  	departamento: this.clearString($(item).find('.product-item__department').text()),
-				  	price: this.clearString($(item).find('.product-item__price').text()),
-				  	url: $(item).find('.product-item__main-image').attr('href'),
-				  	img: $(item).find('.product-item__main-image').children('img').attr('src')
-					}
-
-			   	this.products.push(data)
-				}
-
+		   	this.products.push(data)
 			}
 
 		})
@@ -79,8 +64,6 @@ class Scraping {
 				}else{
 					console.log('esta data existe')
 				}
-			}).catch(err => {
-				console.log(err)
 			})
  		}
 
@@ -88,18 +71,12 @@ class Scraping {
 		console.log('logitud:',this.product_new.length)
 		if ( await this.product_new.length > 0) { // actualizar la data en el json
 			console.log('la nueva data del array:',this.product_new)
-			if ( await this.page === 2) {
-				await jsonWrite('./src/tafDuck.json' ,this.product_new)
-					console.log('ya se realizo el scraping de:', this.url)
-				return true
-			}else{
-		 		await jsonWrite('./src/taf.json' ,this.product_new)
-		 		console.log('ya se realizo el scraping de:', this.url)
-		 		return true
-			}
+			await jsonWrite(this.url_json, this.product_new)
+			console.log('ya se realizo el scraping de:', this.url)
 		}
 		console.log('ya se realizo el scraping de:', this.url)
 		return true
+
 	}
 
 	async validate (product) {// validar y hacer la peticion al json para validar
