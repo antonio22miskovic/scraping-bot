@@ -17,19 +17,17 @@ const pageScraping = async () => {
 	await client.on('ready', () => {
  		console.log('conectado a discord')
 	 })// verificar conexión con discord
-	console.log('urls:',urls)
 	for await (let url of urls){
 		console.log('url en turno:', url)
-		await new Scraping().scrapingPage(url).then(res => {
-			if (res  == true) {
+		await new Scraping().scrapingPage(url).then( async (res) => {
+			if (await  res  == true) {
 				console.log(`la pagina ${url} ya fue procesada`)
 			}
 		})
 	}
-
 }
 
-cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+cron.schedule('*/4 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
 	pageScraping()
 

@@ -14,13 +14,13 @@ const jsonReader = (filePath) => { // cargar archivo json
 
 }
 
-const jsonWrite = (filePath,newFile) => { // sobre escribir archivo json
+const jsonWrite = async (filePath,newFile) => { // sobre escribir archivo json
 
-	fs.writeFile(filePath,JSON.stringify(newFile), err => {
+	await fs.writeFile(filePath,JSON.stringify(newFile), err => {
 		if (err) {
 			console.log(err)
 		}else{
-			console.log('archivo escrito con exito')
+			return true
 		}
 	})
 

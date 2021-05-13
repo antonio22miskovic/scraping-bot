@@ -16,6 +16,7 @@ class Scraping {
 	}
 
 	async scrapingPage (url) { // iniciador
+		var elements = []
 		this.url = url
 		if (await  this.url === 'https://www.taf.com.mx/') {
 			this.data_validation = await require('../src/data/taf.json')
@@ -32,9 +33,13 @@ class Scraping {
 			transform: body => cheerio.load(body)
 		})
 		console.log('se esta realizando el scraping de:', this.url)
-		await $('.product-item__wrapper').each(  (i, item) => {
 
-			if (  //  filtro
+		await $('.product-item__wrapper').each( (i, item) => { // ajuntar los elementos en un array
+			elements.push(item)
+		})
+
+		for await(let item of  elements) {
+			if ( await  //  filtro
 				(
 					this.clearString($(item).find('p').text()) === "RestringidoEncuesta" ||
 					this.clearString($(item).find('p').text()) === "Lanzamientos"
@@ -44,7 +49,7 @@ class Scraping {
 				this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
 			)
 			{
-				let data =  {
+				let data = await {
 					title: this.clearString($(item).find('p').text()) === 'Lanzamientos' ? 'Nuevo Lanzamiento' : 'Nuevo Producto',
 			  	categoria: this.clearString($(item).find('.product-item__category').text()),
 			  	name: this.clearString($(item).find('.product-item__name').text()),
@@ -55,10 +60,10 @@ class Scraping {
 			  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 				}
 
-		   	 this.products.push(data)
+		    await	this.products.push(data)
 			}
 
-		})
+		}
 
 		for await (let contador of this.products) { // recorre la información
 			await this.validate(contador).then( async (res) => {  // valida la información que no se alla enviado
@@ -71,17 +76,16 @@ class Scraping {
 				}
 			})
  		}
-
-		console.log('pasando el await')
 		console.log('logitud:',this.product_new.length)
 		if ( await this.product_new.length > 0) { // actualizar la data en el json
-			console.log('la nueva data del array:',this.product_new)
-			await jsonWrite(this.url_json, this.product_new)
-			console.log('ya se realizo el scraping de:', this.url)
+			await this.saveData(this.url_json, this.product_new).then( async (res) => {
+				if (await res == true) {
+					return true
+				}
+			})
+		}else{
 			return true
 		}
-		console.log('ya se realizo el scraping de:', this.url)
-		return true
 
 	}
 
@@ -111,6 +115,14 @@ class Scraping {
 		}
 		return text.trim()
 
+	}
+
+	async saveData(path,data){
+		await jsonWrite(path,data).then( async (res) => {
+			if (await res == true) {
+				return true
+			}
+		})
 	}
 
 	async message(data) {
