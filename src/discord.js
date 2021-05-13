@@ -3,19 +3,19 @@ const {Client, MessageEmbed} = require('discord.js')
 const env = require('dotenv')
 const client = new Client()
 
-const getMessage = async (result) => {
+const getMessage = async (product) => {
 
 	let id = await client.channels.cache.find(channel => channel.name === process.env.DISCORD_NAME_CHANNEL)
 	let embed = await new MessageEmbed()
-    .setTitle("Nuevo Producto")
+    .setTitle(product.title)
     .setColor(0x00AE86)
-    .setFooter("Nuevo Producto en Taf", result.url)
-    .setImage(result.img)
-    .setThumbnail(result.img)
+    .setFooter(`${product.title} en taf`, product.url)
+    .setImage(product.img)
+    .setThumbnail(product.img)
     .setTimestamp()
-    .setURL(result.url)
-    .addField(result.name, result.categoria, true)
-    .addField(result.price, result.marca, true)
+    .setURL(product.url)
+    .addField(product.name, product.categoria, true)
+    .addField(product.price, product.marca, true)
 	await client.channels.cache.get(id.id).send({embed})
 	console.log('mensaje enviado')
 	return true

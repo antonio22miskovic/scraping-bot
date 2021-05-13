@@ -5,42 +5,47 @@ const request = require('request-promise')
 
 class Scraping {
 
-	constructor(url){ // constructor
+	constructor(){ // constructor
 
-		this.url = url
-		if (this.url === 'https://www.taf.com.mx/') {
-			this.data_validation = require('../src/data/taf.json')
-			this.url_json = './src/data/taf.json'
-		}else{
-			let array = url.trim().split('/')
-			this.data_validation = require(`../src/data/${array[3]}.json`)
-			this.url_json = `./src/data/${array[3]}.json`
-
-		}
+		this.url = null
+		this.data_validation = null
+		this.url_json = null
 		this.product_new = []
 		this.products = []
 
 	}
 
-	async scrapingPage () { // iniciador
-		let products = []
+	async scrapingPage (url) { // iniciador
+		this.url = url
+		if (await  this.url === 'https://www.taf.com.mx/') {
+			this.data_validation = await require('../src/data/taf.json')
+			this.url_json = './src/data/taf.json'
+		}else{
+			let array = await this.url.trim().split('/')
+			this.data_validation = await require(`../src/data/${array[3]}.json`)
+			this.url_json = `./src/data/${array[3]}.json`
+		}
+
 		console.log('dentro del scraping')
 		let $ = await request({
 			url: this.url,
 			transform: body => cheerio.load(body)
 		})
 		console.log('se esta realizando el scraping de:', this.url)
-		await $('.product-item__wrapper').each( (i, item) => {
-			if ( //  filtro
+		await $('.product-item__wrapper').each(  (i, item) => {
+
+			if (  //  filtro
 				(
-					this.clearString($(item).find('p').text()) === "RestringidoEncuesta"||
+					this.clearString($(item).find('p').text()) === "RestringidoEncuesta" ||
 					this.clearString($(item).find('p').text()) === "Lanzamientos"
-				) &&
-				this.clearString($(item).find('.product-item__category').text()) === 'Sneakers'&&
+
+				) === true &&
+				this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' &&
 				this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
 			)
 			{
 				let data =  {
+					title: this.clearString($(item).find('p').text()) === 'Lanzamientos' ? 'Nuevo Lanzamiento' : 'Nuevo Producto',
 			  	categoria: this.clearString($(item).find('.product-item__category').text()),
 			  	name: this.clearString($(item).find('.product-item__name').text()),
 			  	marca: this.clearString($(item).find('.product-item__brand-name').text()),
@@ -50,7 +55,7 @@ class Scraping {
 			  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 				}
 
-		   	this.products.push(data)
+		   	 this.products.push(data)
 			}
 
 		})
@@ -73,6 +78,7 @@ class Scraping {
 			console.log('la nueva data del array:',this.product_new)
 			await jsonWrite(this.url_json, this.product_new)
 			console.log('ya se realizo el scraping de:', this.url)
+			return true
 		}
 		console.log('ya se realizo el scraping de:', this.url)
 		return true
@@ -83,17 +89,18 @@ class Scraping {
 
 	  for await (let contador of this.data_validation) {
 	  	if (
-					contador.name === product.name &&
-					contador.categoria === product.categoria &&
-					contador.price === product.price &&
-					contador.url === product.url &&
-					contador.img === product.img &&
-					contador.departamento === product.departamento
-				){
-					return false // producto ya enviado
-				}
+			contador.name === product.name &&
+			contador.categoria === product.categoria &&
+			contador.price === product.price &&
+			contador.url === product.url &&
+			contador.img === product.img &&
+			contador.departamento === product.departamento
+			){
+				return false // producto ya enviado
+			}
  		}
 		return true // nuevo producto
+
 	}
 
  	clearString (text) { // limpia el formato obtenido del DOM
