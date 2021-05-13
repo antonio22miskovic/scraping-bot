@@ -28,12 +28,12 @@ const pageScraping = async () => {
 	}
 
 }
+
+cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+
 	pageScraping()
-// cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
-// 	pageScraping()
-
-// })
+})
 
 client.login(process.env.DISCORD_TOKEN)
 
