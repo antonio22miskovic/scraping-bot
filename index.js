@@ -27,7 +27,7 @@ const pageScraping = async () => {
 	}
 }
 
-cron.schedule('*/4 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
 	pageScraping()
 
