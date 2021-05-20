@@ -2,6 +2,7 @@ const {client, dotenv} = require('./src/discord.js')
 const env = require('dotenv')
 const Scraping = require('./src/scraping.js')
 const cron = require('node-cron')
+const PORT = process.env.PORT || 5000;
 
 const urls = [
 	'https://www.taf.com.mx/calzado',
@@ -27,7 +28,7 @@ const pageScraping = async () => {
 	}
 }
 
-cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+cron.schedule('*/4 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
 	pageScraping()
 
