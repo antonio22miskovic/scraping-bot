@@ -11,7 +11,7 @@ const urls = [
 	'https://www.taf.com.mx/dunk',
 	'https://www.taf.com.mx/mujer/calzado/sneakers',
 	'https://www.taf.com.mx/hombre/calzado/sneakers',
-	'https://www.taf.com.mx/taf-kids/calzado/sneakers',
+	'https://www.taf.com.mx/taf-kids/calzado/sneakers'
 ]
 
 const pageScraping = async () => {
@@ -36,6 +36,4 @@ const pageScraping = async () => {
 // })
 
 client.login(process.env.DISCORD_TOKEN)
-
-
 
