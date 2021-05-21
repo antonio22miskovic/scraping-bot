@@ -41,9 +41,8 @@ class Scraping {
 		for await(let item of  elements) {
 			if ( await  //  filtro
 				(
-					this.clearString($(item).find('p').text()) === "RestringidoEncuesta" ||
+					this.clearString($(item).find('p').text()) === "RestringidoEncuesta"||
 					this.clearString($(item).find('p').text()) === "Lanzamientos"
-
 				) === true &&
 				this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' &&
 				this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'

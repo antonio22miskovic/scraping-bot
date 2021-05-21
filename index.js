@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 const urls = [
 	'https://www.taf.com.mx/calzado',
+	'https://www.taf.com.mx/nike',
 	'https://www.taf.com.mx/',
 	'https://www.taf.com.mx/dunk',
 	'https://www.taf.com.mx/mujer/calzado/sneakers',
@@ -28,11 +29,11 @@ const pageScraping = async () => {
 	}
 }
 
-cron.schedule('*/3 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+// cron.schedule('*/3 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
 	pageScraping()
 
-})
+// })
 
 client.login(process.env.DISCORD_TOKEN)
 
