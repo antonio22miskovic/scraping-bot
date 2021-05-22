@@ -23,8 +23,14 @@ class Scraping {
 			this.url_json = './src/data/taf.json'
 		}else{
 			let array = await this.url.trim().split('/')
-			this.data_validation = await require(`../src/data/${array[3]}.json`)
-			this.url_json = `./src/data/${array[3]}.json`
+			console.log(array[4])
+			if (array[4] !== undefined) {
+					this.data_validation = await require(`../src/data/${array[3]}_${array[4]}.json`)
+				this.url_json = `./src/data/${array[3]}_${array[4]}.json`
+			}else{
+				this.data_validation = await require(`../src/data/${array[3]}.json`)
+				this.url_json = `./src/data/${array[3]}.json`
+			}
 		}
 
 		console.log('dentro del scraping')
@@ -39,15 +45,22 @@ class Scraping {
 		})
 
 		for await(let item of  elements) {
+			// console.log('en nuevo o en lanzamiento:',this.clearString($(item).find('p').text()))
+			// console.log('name:',this.clearString($(item).find('.product-item__name').text()))
+			// console.log('categoria:',this.clearString($(item).find('.product-item__category').text()))
+			// console.log('marca:',this.clearString($(item).find('.product-item__brand-name').text()))
+
 			if ( await  //  filtro
-				(
-					this.clearString($(item).find('p').text()) === "RestringidoEncuesta"||
-					this.clearString($(item).find('p').text()) === "Lanzamientos"
-				) === true &&
-				this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' &&
-				this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
-			)
+				// nuevo o lanzamiento
+					(
+						this.clearString($(item).find('p').text()) === "RestringidoEncuesta"||
+						this.clearString($(item).find('p').text()) === "Lanzamientos"
+					) &&
+					this.clearString($(item).find('.product-item__category').text()) === 'Sneakers' &&
+				  this.clearString($(item).find('.product-item__brand-name').text()) === 'Nike'
+				)
 			{
+
 				let data = await {
 					title: this.clearString($(item).find('p').text()) === 'Lanzamientos' ? 'Nuevo Lanzamiento' : 'Nuevo Producto',
 			  	categoria: this.clearString($(item).find('.product-item__category').text()),
@@ -58,10 +71,8 @@ class Scraping {
 			  	url: $(item).find('.product-item__main-image').attr('href'),
 			  	img: $(item).find('.product-item__main-image').children('img').attr('src')
 				}
-
-		    await	this.products.push(data)
+ 				await this.products.push(data)
 			}
-
 		}
 
 		for await (let contador of this.products) { // recorre la información

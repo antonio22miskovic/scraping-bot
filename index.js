@@ -2,11 +2,16 @@ const {client, dotenv} = require('./src/discord.js')
 const env = require('dotenv')
 const Scraping = require('./src/scraping.js')
 const cron = require('node-cron')
+
 const PORT = process.env.PORT || 5000;
 
 const urls = [
 	'https://www.taf.com.mx/calzado',
 	'https://www.taf.com.mx/nike',
+	'https://www.taf.com.mx/hombre',
+	'https://www.taf.com.mx/mujer',
+	'https://www.taf.com.mx/taf-kids',
+	'https://www.taf.com.mx/Ni%C3%B1o?O=OrderByReleaseDateDESC&PS=12&map=specificationFilter_19',
 	'https://www.taf.com.mx/',
 	'https://www.taf.com.mx/dunk',
 	'https://www.taf.com.mx/mujer/calzado/sneakers',
@@ -29,7 +34,7 @@ const pageScraping = async () => {
 	}
 }
 
-cron.schedule('*/3 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
 	pageScraping()
 
