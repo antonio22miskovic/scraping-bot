@@ -1,8 +1,8 @@
 const {client, dotenv} = require('./src/discord.js')
 const env = require('dotenv')
 const Scraping = require('./src/scraping.js')
+const StockScraping = require('./src/stock.js')
 const cron = require('node-cron')
-
 const PORT = process.env.PORT || 5000;
 
 const urls = [
@@ -19,11 +19,12 @@ const urls = [
 	'https://www.taf.com.mx/taf-kids/calzado/sneakers'
 ]
 
+
 const pageScraping = async () => {
 
 	await client.on('ready', () => {
  		console.log('conectado a discord')
-	 })// verificar conexión con discord
+	})// verificar conexión con discord
 	for await (let url of urls){
 		console.log('url en turno:', url)
 		await new Scraping().scrapingPage(url).then( async (res) => {
@@ -33,6 +34,19 @@ const pageScraping = async () => {
 		})
 	}
 }
+
+const pageScrapingStock = async () => {
+
+	await client.on('ready', () => {
+ 		console.log('conectado a discord')
+	})// verificar conexión con discord
+	for await (let url of urls){
+		console.log('url en turno:', url)
+		await new StockScraping().urlStock(url)
+	}
+
+}
+// pageScrapingStock()
 
 cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 

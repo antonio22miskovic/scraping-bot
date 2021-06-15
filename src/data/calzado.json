@@ -1,1 +1,31 @@
-[{"title":"Nuevo Producto","categoria":"Sneakers","name":"AIR FORCE 1 LE (GS)","marca":"Nike","departamento":"KIDS","price":"$1,599.00","url":"https://www.taf.com.mx/air-force-1-le-gs-dh2920-111/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/274601-398-512/DH2920-111-1.png?v=637541954847600000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"WMNS AIR FORCE 1 07 ESS","marca":"Nike","departamento":"WOMENS","price":"$1,999.00","url":"https://www.taf.com.mx/wmns-air-force-1-07-ess-cz0270-102/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/274678-398-512/CZ0270-102-1.png?v=637541956109370000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"W AF1 SHADOW","marca":"Nike","departamento":"WOMENS","price":"$2,399.00","url":"https://www.taf.com.mx/w-af1-shadow-cu8591-104/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/272597-398-512/CU8591-104-1.png?v=637539508791700000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"AIR FORCE 1 07","marca":"Nike","departamento":"MENS","price":"$1,999.00","url":"https://www.taf.com.mx/air-force-1-07-cw2288-001/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/275036-398-512/CW2288-001-1.png?v=637541959361300000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"BLAZER MID 77 VNTG","marca":"Nike","departamento":"MENS","price":"$2,099.00","url":"https://www.taf.com.mx/blazer-mid-77-vntg-bq6806-100/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/241012-398-512/BQ6806-100-1.png?v=637462513849300000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"AIR MAX 270 REACT","marca":"Nike","departamento":"Departamento\n\nMEN´S","price":"$3,299.00\n                $1,649.50","url":"https://www.taf.com.mx/air-max-270-react-ci3866-003/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/164050-398-512/CI3866-003-1.jpg.png?v=637293251476970000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"W AF1 SHADOW","marca":"Nike","departamento":"Departamento\n\nWOMEN´S","price":"$2,399.00","url":"https://www.taf.com.mx/w-nsw-af1-af1-ci0919-100/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/162206-398-512/CI0919-100-1.jpg.png?v=637293090384430000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"W AF1 SHADOW","marca":"Nike","departamento":"WOMENS","price":"$2,399.00","url":"https://www.taf.com.mx/w-af1-shadow-cu8591-601/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/275775-398-512/CU8591-601-1.png?v=637541972632870000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"W AF1 SHADOW","marca":"Nike","departamento":"WOMENS","price":"$2,399.00","url":"https://www.taf.com.mx/w-af1-shadow-cu8591-103/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/272811-398-512/CU8591-103-1.png?v=637539519119730000"}]
+[
+	{
+		"title":"Nuevo Producto",
+		"categoria":"Sneakers",
+		"name":"NIKE AIR MAX INFINITY",
+		"marca":"Nike",
+		"departamento":"Departamento\n\nMEN´S",
+		"price":"$1,999.00\n                $1,399.30",
+		"url":"https://www.taf.com.mx/nike-air-max-infinity-bq3999-003/p",
+		"img":"https://tafmx.vteximg.com.br/arquivos/ids/163550-398-512/BQ3999-003-1.jpg.png?v=637293235210930000"
+	},
+	{
+		"title":"Nuevo Producto",
+		"categoria":"Sneakers",
+		"name":"AIR FORCE 1 LE (GS)",
+		"marca":"Nike",
+		"departamento":"KIDS",
+		"price":"$1,599.00",
+		"url":"https://www.taf.com.mx/air-force-1-le-gs-dh2920-111/p",
+		"img":"https://tafmx.vteximg.com.br/arquivos/ids/274605-398-512/DH2920-111-1.png?v=637541954866070000"
+	},
+	{
+		"title":"Nuevo Producto",
+		"categoria":"Sneakers",
+		"name":"W AIR MAX 90",
+		"marca":"Nike",
+		"departamento":"Departamento\n\nWOMEN´S",
+		"price":"$2,399.00\n                $1,919.20",
+		"url":"https://www.taf.com.mx/w-air-max-90-ct1873-100/p",
+		"img":"https://tafmx.vteximg.com.br/arquivos/ids/214053-398-512/CT1873-100-1.jpg.png?v=637388152734100000"
+	},{"title":"Nuevo Producto","categoria":"Sneakers","name":"NIKE COURT VINTAGE PREM","marca":"Nike","departamento":"Departamento\n\nMEN´S","price":"$1,499.00\n                $1,049.30","url":"https://www.taf.com.mx/nike-court-vintage-prem-ct1726-100/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/216935-398-512/CT1726-100-1.png?v=637401984549070000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"W AF1 SHADOW","marca":"Nike","departamento":"Departamento\n\nWOMEN´S","price":"$2,399.00","url":"https://www.taf.com.mx/w-nsw-af1-af1-ci0919-100/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/162206-398-512/CI0919-100-1.jpg.png?v=637293090384430000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"W AF1 SHADOW","marca":"Nike","departamento":"WOMENS","price":"$2,399.00","url":"https://www.taf.com.mx/w-af1-shadow-cu8591-104/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/272597-398-512/CU8591-104-1.png?v=637539508791700000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"NIKE AIR MAX 90 LTR","marca":"Nike","departamento":"KIDS","price":"$1,999.00\n                $1,399.30","url":"https://www.taf.com.mx/nike-air-max-90-ltr-cd6864-025/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/231858-398-512/CD6864-025-1.png?v=637435730017600000"},{"title":"Nuevo Producto","categoria":"Sneakers","name":"AIR MAX 90 3M","marca":"Nike","departamento":"Departamento\n\nMEN´S","price":"$2,799.00\n                $1,959.30","url":"https://www.taf.com.mx/air-max-90-3m-cz2975-002/p","img":"https://tafmx.vteximg.com.br/arquivos/ids/218294-398-512/CZ2975-002-1.png?v=637402961903200000"}]

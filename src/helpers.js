@@ -26,7 +26,12 @@ const jsonWrite = async (filePath,newFile) => { // sobre escribir archivo json
 
 }
 
+const clearString = (text) => { // limpia el formato obtenido del DOM
+	return text.trim()
+}
+
 module.exports = {
 	jsonReader,
-	jsonWrite
+	jsonWrite,
+	clearString
 }
