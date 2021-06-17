@@ -29,6 +29,13 @@ class Scraping {
 			let $ = await request({
 				url: this.url,
 				transform: body => cheerio.load(body)
+			},(err, res, body) => {
+
+		    if (err){
+		    	console.log('fallo la petición')
+		    	console.error(err);
+		    	return true
+		    }
 			})
 			console.log('se esta realizando el scraping de:', this.url)
 

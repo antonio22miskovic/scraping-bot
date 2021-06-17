@@ -39,18 +39,15 @@ const pageScrapingStock = async () => {
 
 	await client.on('ready', () => {
  		console.log('conectado a discord')
-	})// verificar conexión con discord
-	for await (let url of urls){
-		console.log('url en turno:', url)
-		await new StockScraping().urlStock(url)
-	}
+	})
+
+	await new StockScraping().urlStock()
 
 }
-// pageScrapingStock()
 
 cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
 
-	pageScraping()
+ 	 pageScrapingStock()
 
 })
 
