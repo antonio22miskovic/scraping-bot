@@ -45,10 +45,8 @@ const pageScrapingStock = async () => {
 
 }
 
- 	 // pageScrapingStock()
 cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
-
-
+ 	pageScrapingStock()
 })
 
 client.login(process.env.DISCORD_TOKEN)

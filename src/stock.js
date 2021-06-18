@@ -124,7 +124,7 @@ class StockScraping { // este objeto se encargara de administrar el stock de la 
 			let p = await this.old_product.find(element => element.url === pro.url)
 
 			if (p === undefined) {
-
+				console.log('metiendo el nuevo producto:',p)
 				this.new_stock.push(pro) // prodcutos nuevos
 			}
 
@@ -133,8 +133,9 @@ class StockScraping { // este objeto se encargara de administrar el stock de la 
 		if (sin_stock.length > 1) {
 
 			for await (let old of sin_stock){
-
 				let stock_true = await this.products.find(element => element.url === old.url)
+
+				console.log('sin estock:',stock_true)
 
 				if (stock_true !== undefined) {
 			 		this.new_stock.push(stock_true)
@@ -149,12 +150,17 @@ class StockScraping { // este objeto se encargara de administrar el stock de la 
 		  await this.message(this.new_stock).then( async (new_product) => { // enviar el mensage al discord
 
 		  	for await (let pro of new_product) {
-					this.old_product.map( dato => {
-						if(dato.url == pro.url){
-							dato.stock = true;
-						}
-						return dato;
-					});
+		  	 let p = await this.old_product.find(element => element.url === pro.url)
+			  	 	if (p === undefined) {
+			  	 		this.old_product.push(pro)
+			  	 	}else{
+							await this.old_product.map( dato => {
+								if(dato.url == pro.url){
+									dato.stock = true
+								}
+								return dato
+							})
+			  	 	}
 		  	}
 
 				console.log('mensajes enviados',new_product.length) // insertar data en el array
