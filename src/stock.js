@@ -2,7 +2,6 @@ const {jsonReader, jsonWrite, clearString, clearResultArray} = require('../src/h
 const {getMessage} = require('../src/discord.js')
 const cheerio = require('cheerio')
 const request = require('request-promise')
-const phantom = require('phantom')
 
 
 class StockScraping { // este objeto se encargara de administrar el stock de la pagina
@@ -118,37 +117,49 @@ class StockScraping { // este objeto se encargara de administrar el stock de la 
 		let sin_stock = await this.old_product.filter(element => element.stock === false)
 
 
-		// productos que no aparecen en el array
+		///////// productos que no aparecen en el array ////////7
 		for await (let pro of this.products){
-
 			let p = await this.old_product.find(element => element.url === pro.url)
-
 			if (p === undefined) {
-				console.log('metiendo el nuevo producto:',p)
+				console.log('metiendo el nuevo producto:',pro)
 				this.new_stock.push(pro) // prodcutos nuevos
 			}
-
 		}
+		///////// fin productos que no aparecen en el array ////////7
 
-		if (sin_stock.length > 1) {
-
+	////// buscar si ya hay nuevo stock hablilitado ////
+		if (sin_stock.length > 0) {
 			for await (let old of sin_stock){
 				let stock_true = await this.products.find(element => element.url === old.url)
-
-				console.log('sin estock:',stock_true)
-
 				if (stock_true !== undefined) {
 			 		this.new_stock.push(stock_true)
 				}
-
 			}
-
 		}
+	////// fin buscar si ya hay nuevo stock hablilitado ////
 
-		if (this.new_stock.length > 1) {
+		////////// detectar stock agotado //////////7
+		for await (let i of this.old_product){
+			let com = await this.products.find(element => element.url === i.url)
+			if (com === undefined) {
+				console.log('producto con stock agotado')
+				await this.old_product.map( dato => {
+					if(dato.url === i.url && dato.stock === true){
+						console.log('producto con stock agotado cambiado a false')
+						dato.title = 'Stock Renovado'
+						dato.stock = false
+					}
+					return dato
+				})
+			}
+		}
+		////////// fin detectar stock agotado //////////7
 
+
+		////////////// enviar mensaje ///////////////
+
+		if (this.new_stock.length > 0) {
 		  await this.message(this.new_stock).then( async (new_product) => { // enviar el mensage al discord
-
 		  	for await (let pro of new_product) {
 		  	 let p = await this.old_product.find(element => element.url === pro.url)
 			  	 	if (p === undefined) {
@@ -162,15 +173,13 @@ class StockScraping { // este objeto se encargara de administrar el stock de la 
 							})
 			  	 	}
 		  	}
-
 				console.log('mensajes enviados',new_product.length) // insertar data en el array
 			})
-
 		  await jsonWrite(this.path_json,this.old_product)
-
 		}else{
 			console.log('no hay mensajes que enviar')
 		}
+		////////////// fin enviar mensaje ///////////////
 
 	}
 

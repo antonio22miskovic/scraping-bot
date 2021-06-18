@@ -12,10 +12,7 @@
     "cheerio": "^1.0.0-rc.6",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
-    "fs": "^0.0.1-security",
     "node-cron": "^3.0.0",
-    "phantom": "^6.3.0",
-    "puppeteer": "^10.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
   }

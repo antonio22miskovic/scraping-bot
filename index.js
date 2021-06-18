@@ -20,32 +20,29 @@ const urls = [
 ]
 
 
-const pageScraping = async () => {
+// const pageScraping = async () => {
 
-	await client.on('ready', () => {
- 		console.log('conectado a discord')
-	})// verificar conexión con discord
-	for await (let url of urls){
-		console.log('url en turno:', url)
-		await new Scraping().scrapingPage(url).then( async (res) => {
-			if (await  res  == true) {
-				console.log(`la pagina ${url} ya fue procesada`)
-			}
-		})
-	}
-}
+// 	await client.on('ready', () => {
+//  		console.log('conectado a discord')
+// 	})// verificar conexión con discord
+// 	for await (let url of urls){
+// 		console.log('url en turno:', url)
+// 		await new Scraping().scrapingPage(url).then( async (res) => {
+// 			if (await  res  == true) {
+// 				console.log(`la pagina ${url} ya fue procesada`)
+// 			}
+// 		})
+// 	}
+// }
 
 const pageScrapingStock = async () => {
-
 	await client.on('ready', () => {
  		console.log('conectado a discord')
 	})
-
 	await new StockScraping().urlStock()
-
 }
 
-cron.schedule('*/2 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
+cron.schedule('*/3 * * * *', () => { // cronometro cada aproximadamente 2 minutos se realiza el scraping
  	pageScrapingStock()
 })
 
