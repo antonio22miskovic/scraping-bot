@@ -21,7 +21,7 @@ class StockScraping { // este objeto se encargara de administrar el stock de la 
 		this.old_product = null
 		this.stock_true_new = []
 		this.jsons = null
-		this.products_aprobados = []
+
 	}
 
 	async urlStock () {
